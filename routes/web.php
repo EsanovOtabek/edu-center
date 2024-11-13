@@ -18,6 +18,8 @@ Route::get('/', function () {
     return redirect()->route('admin.index');
 })->name('index');
 
+Route::get('login', [AuthController::class, 'login'])->name('login');
+
 
 
 Route::get('dev', [DevController::class, 'index'])->name('dev-console');
