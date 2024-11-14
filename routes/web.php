@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('admin.index');
+    return view('dashboard.index');
 })->name('index');
 
 Route::get('login', [AuthController::class, 'login'])->name('login');

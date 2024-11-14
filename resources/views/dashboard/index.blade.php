@@ -1,1 +1,1 @@
-<?php
+@extends('layout.dashboard')
