@@ -48,6 +48,9 @@
 @if(session()->has('success_msg'))
     <script>toastr.success("{{ session('success_msg') }}")</script>
 @endif
+@if(session()->has('success'))
+    <script>toastr.success("{{ session('success') }}")</script>
+@endif
 @if(session()->has('error_msg'))
     <script>toastr.error("{{session('error_msg')}}")</script>
 @endif
@@ -55,5 +58,6 @@
 
 
 @stack('scripts')
+
 </body>
 </html>

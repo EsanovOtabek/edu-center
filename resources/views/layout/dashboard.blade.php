@@ -33,7 +33,14 @@
             <!-- /.content-header -->
 
             <!-- Main content -->
-            @yield('content')
+            <div class="content">
+                <div class="container-fluid">
+
+                    @yield('content')
+
+                </div><!-- /.container-fluid -->
+            </div>
+
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
