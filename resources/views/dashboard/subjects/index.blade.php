@@ -9,8 +9,6 @@
 @endsection
 
 
-
-
 @section('content')
     <!-- Default box -->
     <div class="card card-solid">
@@ -36,9 +34,16 @@
                         <td>{{$loop->index+1}}</td>
                         <td class="text-bold ">{{ $subject->name }}</td>
                         <td style="width: 150px">
-                            <button onclick="editSubject({{ $subject->id }})" class="btn btn-warning" data-toggle="modal" data-target="#modal-editSubject-{{ $subject->id }}">
+                            <!-- Tahrirlash tugmasi -->
+                            <button
+                                class="btn btn-warning"
+                                data-toggle="modal"
+                                data-target="#modal-edit"
+                                data-id="{{ $subject->id }}"
+                                data-name="{{ $subject->name }}">
                                 <i class="fa fa-edit"></i> Tahrirlash
                             </button>
+
                             |
                             <!-- O'chirish tugmasi -->
                             <button class="btn btn-danger" data-toggle="modal" data-target="#modal-delete" data-id="{{ $subject->id }}" data-name="{{ $subject->name }}">
@@ -53,9 +58,10 @@
         <!-- /.card-body -->
     </div>
     <!-- /.card -->
-    @if(auth()->user()->role == 'admin')
-        @include('dashboard.subjects.add-modal')
-    @endif
+    @include('dashboard.subjects.delete-modal')
+    @include('dashboard.subjects.edit-modal')
+    @include('dashboard.subjects.add-modal')
+
 @endsection
 
 @push('styles')
@@ -104,8 +110,21 @@
             var form = modal.find('#delete-form');
             form.attr('action', '/admin/subjects/' + subjectId); // Formaning action atributini yangilash
         });
+
+        $('#modal-edit').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Modalni ochgan tugma
+            var subjectId = button.data('id'); // Tugmadagi subject ID
+            var subjectName = button.data('name'); // Tugmadagi subject nomi
+
+            // Modal ichidagi formani yangilash
+            var modal = $(this);
+            modal.find('#subject-name').val(subjectName); // Input maydoniga nomni joylashtirish
+            modal.find('#edit-form').attr('action', '/admin/subjects/' + subjectId); // Form action'ni yangilash
+        });
+    </script>
+
     </script>
 
 @endpush
 
-@include('dashboard.subjects.delete-modal')
+

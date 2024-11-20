@@ -54,6 +54,32 @@
                         <p>Fanlar</p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            O'qituvchilar
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.teachers.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>O'qituvchilar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.teachers.create') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>O'qituvchi qo'shish</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link">
                         <i class="nav-icon fa fa-arrow-circle-right"></i>
