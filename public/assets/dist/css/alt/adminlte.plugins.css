@@ -447,7 +447,7 @@
 }
 
 .select2-container--default .select2-results__option[aria-disabled='true'] {
-  color: #6c757d;
+  color: #007bff;
 }
 
 .select2-container--default .select2-results__option[aria-selected='true'] {
@@ -626,7 +626,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 
 .select2-container--default .select2-primary .select2-selection--multiple:focus,
 .select2-primary .select2-container--default .select2-selection--multiple:focus {
-  border-color: #80bdff;
+  border-color: #0074f0;
 }
 
 .select2-container--default .select2-primary .select2-selection--multiple .select2-selection__choice,

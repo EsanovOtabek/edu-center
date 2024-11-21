@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('fio'); // To'liq ismi
             $table->string('phone'); // Telefon raqami
             $table->string('passport_number'); // Pasport nomeri
+            $table->string('image'); // O'qituvchi rasmi
             $table->decimal('salary_percentage', 5, 2)->default(0); // Oylik foizlarda
             $table->decimal('balance', 10, 2)->default(0); // Balansdagi pul
             $table->softDeletes(); // "deleted_at" ustunini qo'shish

@@ -17,7 +17,8 @@ class Teacher extends Model
         'passport_number',
         'fio',
         'salary_percentage',
-        'balance'
+        'balance',
+        'image'
     ];
 
     public function user()

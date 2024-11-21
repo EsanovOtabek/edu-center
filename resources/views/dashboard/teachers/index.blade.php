@@ -20,6 +20,7 @@
                             <th>ID</th>
                             <th>To‘liq Ismi</th>
                             <th>Telefon</th>
+                            <th>Foiz</th>
                             <th>Fanlari</th>
                             <th>Balans</th>
                             <th>Amallar</th>
@@ -31,7 +32,12 @@
                                 <td>{{ $teacher->id }}</td>
                                 <td>{{ $teacher->fio }}</td>
                                 <td>{{ $teacher->phone }}</td>
-                                <td>{{ $teacher->subjects->pluck('name')->join(', ') }}</td>
+                                <td>{{ $teacher->salary_percentage }}</td>
+                                <td>
+                                    @foreach($teacher->subjects->pluck('name') as $tsb)
+                                        <span class="p-1 bg-primary rounded">{{ $tsb }}</span>
+                                    @endforeach
+                                </td>
                                 <td>{{ $teacher->balance }}</td>
                                 <td>
                                     <a href="{{ route('admin.teachers.edit', $teacher->id) }}" class="btn btn-sm btn-warning">Tahrirlash</a>

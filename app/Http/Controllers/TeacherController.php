@@ -32,25 +32,28 @@ class TeacherController extends Controller
         $request->validate([
             'fio' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
+            'password' => 'required|string|min:8',
             'passport_number' => 'required|string|max:20',
             'salary_percentage' => 'required|numeric|min:0|max:100',
             'subjects' => 'array|required', // Ensure that subjects are provided
             'subjects.*' => 'exists:subjects,id', // Validate the subject IDs
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Rasm uchun validatsiya
         ]);
 
-        // Generate login based on FIO (full name), example: first initial + last name
-        $fio = explode(' ', $request->fio);
-        $login = strtolower($fio[0][0] . $fio[count($fio) - 1]); // first letter + last name
-
-        // Generate a random password (e.g., 12 characters)
-        $password = Str::random(12);
-// Create the user with generated login and password
+        $login = $request->phone; // phone to login
+        $password = $request->password;
         $user = User::create([
             'fio' => $request->fio,
             'login' => $login,
             'password' => Hash::make($password), // Hash the password
             'role' => 'teacher',
         ]);
+
+        // Rasmni yuklash
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('teachers', 'public'); // Rasmlar `storage/app/public/teachers` papkasida saqlanadi
+        }
 
         // Create the teacher, linking to the user
         $teacher = Teacher::create([
@@ -59,14 +62,15 @@ class TeacherController extends Controller
             'phone' => $request->phone,
             'passport_number' => $request->passport_number,
             'salary_percentage' => $request->salary_percentage,
-            'balance' => 0, // Default balance
+            'balance' => 0,
+            'image' => $imagePath, // Rasm yo‘lini saqlaymiz
         ]);
 
         // Attach selected subjects to the teacher
         $teacher->subjects()->sync($request->subjects);
 
         // Return success message
-        return redirect()->route('admin.teachers.index')->with('success_msg', 'Teacher added successfully. Login: ' . $login . ', Password: ' . $password);
+        return redirect()->route('admin.teachers.index')->with('success_msg', 'Teacher added successfully.');
     }
 
 
@@ -93,18 +97,41 @@ class TeacherController extends Controller
     public function update(Request $request, Teacher $teacher)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
             'phone' => 'required|string',
             'passport_number' => 'required|string',
-            'full_name' => 'required|string',
+            'fio' => 'required|string',
             'salary_percentage' => 'required|numeric',
-            'balance' => 'required|numeric'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Rasm validatsiyasi
         ]);
 
-        $teacher->update($request->all());
+        if(isset($request->password)){
+            $request->validate(['password' => 'required|string|min:8']);
+            $password = $request->password;
+            $user = User::find($teacher->user_id);
+            $user->password = Hash::make($password);
+            $user->phone = $request->phone;
+            $user->save();
+        }
 
+        // Rasmni yangilash
+        $imagePath = $teacher->image; // Eski rasm
+        if ($request->hasFile('image')) {
+            // Eski rasmni o'chirish
+            if ($imagePath && file_exists(storage_path('app/public/' . $imagePath))) {
+                unlink(storage_path('app/public/' . $imagePath));
+            }
+            // Yangi rasmni saqlash
+            $imagePath = $request->file('image')->store('teachers', 'public');
+        }
 
-        // Tanlangan fanlarni yangilash
+        $teacher->update([
+            'fio' => $request->fio,
+            'phone' => $request->phone,
+            'passport_number' => $request->passport_number,
+            'salary_percentage' => $request->salary_percentage,
+            'image' => $imagePath, // Rasm yo‘li yangilanadi
+        ]);
+
         if ($request->has('subjects')) {
             $teacher->subjects()->sync($request->subjects);
         }
