@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
         <img src="{{ asset('images/logo.png') }}" alt="Edu-Center" class="brand-image img-circle elevation-3 bg-white"
-            style="opacity: .8">
+             style="opacity: .8">
         <span class="brand-text font-weight-light">Edu-Center</span>
     </a>
 
@@ -56,6 +56,13 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('admin.rooms.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-building"></i>
+                        <p>Xonalar</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
@@ -79,10 +86,36 @@
                     </ul>
                 </li>
 
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Guruhlar
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.teachers.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>O'qituvchilar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.teachers.create') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>O'qituvchi qo'shish</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+
 
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link">
-                        <i class="nav-icon fa fa-arrow-circle-right"></i>
+                        <i class="nav-icon fa fa-sign-out-alt"></i>
                         <p>
                             Chiqish
                         </p>

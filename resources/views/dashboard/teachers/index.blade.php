@@ -40,11 +40,12 @@
                                 </td>
                                 <td>{{ $teacher->balance }}</td>
                                 <td>
-                                    <a href="{{ route('admin.teachers.edit', $teacher->id) }}" class="btn btn-sm btn-warning">Tahrirlash</a>
+                                    <a href="{{ route('admin.teachers.show', $teacher->id) }}" class="btn btn-info"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ route('admin.teachers.edit', $teacher->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
                                     <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('O‘chirishga ishonchingiz komilmi?')">O‘chirish</button>
+                                        <button type="submit" class="btn btn btn-danger" onclick="return confirm('O‘chirishga ishonchingiz komilmi?')"> <i class="fa fa-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>

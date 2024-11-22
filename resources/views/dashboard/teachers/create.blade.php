@@ -30,7 +30,7 @@
 
                         <div class="form-group col-md-6">
                             <label for="password">Parol</label>
-                            <input type="password" name="password" id="password" class="form-control" required value="{{ old('password') }}" placeholder="password">
+                            <input type="password" name="password" id="password" class="form-control" required placeholder="password">
                         </div>
 
 
@@ -49,9 +49,19 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <label for="image">Rasm yuklash</label>
-                            <input type="file" name="image" id="image" class="form-control" required  accept="image/*">
+                        <div class="form-group col-md-3">
+                            <label for="image">Rasm yuklash (Drag & Drop)</label>
+                            <div id="dropZone" class="drag-drop-zone">
+                                <p>Rasmni bu yerga tashlang yoki ustiga bosib yuklang</p>
+                                <h1><i class="fa fa-image"></i><i class="fa fa-finger"></i></h1>
+                                <input type="file" name="image" id="imageInput" class="form-control d-none" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Tanlangan rasm:</label>
+                            <div>
+                                <img id="imagePreview" src="#" alt="Tanlangan rasm" class="img-thumbnail" style="max-width: 200px; display: none;">
+                            </div>
                         </div>
                     </div>
 
@@ -67,12 +77,83 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <style>
+        .drag-drop-zone {
+            border: 2px dashed #007bff;
+            padding: 20px;
+            height: 200px;
+            text-align: center;
+            color: #555;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+        .drag-drop-zone:hover {
+            border-color: #0056b3;
+        }
+        .drag-drop-zone.drag-over {
+            background-color: #f0f8ff;
+            border-color: #007bff;
+        }
+
+    </style>
 @endpush
 
 @push('scripts')
     <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
-        $('.select2').select2()
+        $('.select2').select2();
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('imageInput');
+            const imagePreview = document.getElementById('imagePreview');
+
+            // Drag & Drop Events
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.add('drag-over');
+            });
+
+            dropZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.remove('drag-over');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.remove('drag-over');
+
+                const files = e.dataTransfer.files;
+                if (files.length) {
+                    fileInput.files = files;
+                    previewImage(files[0]);
+                }
+            });
+
+            // Click Event to Open File Dialog
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            // Change Event for File Input
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    previewImage(file);
+                }
+            });
+
+            // Preview the Image
+            function previewImage(file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
     </script>
 @endpush
