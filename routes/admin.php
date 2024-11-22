@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
@@ -13,5 +14,6 @@ Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
 
 
 Route::resource('teachers', TeacherController::class);
-Route::resource('subjects', SubjectController::class)->except(['create', 'show', 'edit']);
+Route::resource('subjects', controller: SubjectController::class)->except(['create', 'show', 'edit']);
 Route::resource('rooms', RoomController::class)->except(['create', 'show', 'edit']);
+Route::resource('groups', GroupController::class);

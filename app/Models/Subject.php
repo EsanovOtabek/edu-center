@@ -17,4 +17,10 @@ class Subject extends Model
         return $this->belongsToMany(Teacher::class, 'subject_teacher');
     }
 
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
+
+
 }

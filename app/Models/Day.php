@@ -5,19 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Room extends Model
+class Day extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name', // Xona nomi
-        'capacity', // Sig'imi
+    protected $filliable = [
+        'name',
+        'name_en',
     ];
 
     public function schedules()
     {
         return $this->hasMany(Schedule::class);
     }
-
 
 }
