@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DevController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,5 @@ Route::get('artisan/db-seed', [DevController::class, 'dbSeed'])->name('artisan.d
 Route::get('artisan/migrate', [DevController::class, 'migrate'])->name('artisan.migrate');
 Route::get('artisan/migrate-fresh', [DevController::class, 'migrateFresh'])->name('artisan.migrate-fresh');
 Route::get('artisan/clear', [DevController::class, 'clear'])->name('artisan.clear');
+
+

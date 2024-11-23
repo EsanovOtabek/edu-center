@@ -9,7 +9,7 @@ class Day extends Model
 {
     use HasFactory;
 
-    protected $filliable = [
+    protected $fillable = [
         'name',
         'name_en',
     ];
