@@ -40,7 +40,7 @@ class ScheduleController extends Controller
             // 'start_time' va 'end_time' orasidagi intervalni tekshirish
             $checkSchedule = Schedule::where('day_id', $day_id)
                 ->where('room_id', $room_id)
-                ->where(function($query) use ($h1, $h2) {
+                ->where(function ($query) use ($h1, $h2) {
                     // Intervalga to'g'ri keladigan yozuvlar mavjudligini tekshirish
                     $query->where('start_time', '<', $h2)
                         ->where('end_time', '>', $h1);
@@ -49,8 +49,8 @@ class ScheduleController extends Controller
 
             if ($checkSchedule) {
                 $response .= "<option value='' disabled>" . $h1 . "</option>";
-            }else{
-                $response .= "<option value='".$h1."'>" . $h1 . "</option>";
+            } else {
+                $response .= "<option value='" . $h1 . "'>" . $h1 . "</option>";
             }
 
         }
@@ -59,7 +59,7 @@ class ScheduleController extends Controller
     }
 
 
-    public function checkScheduleEnd(Request $request)
+    public function checkScheduleUpdate(Request $request)
     {
 
     }

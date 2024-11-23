@@ -64,7 +64,7 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
+                        <i class="nav-icon fas fa-user-graduate"></i>
                         <p>
                             O'qituvchilar
                             <i class="right fas fa-angle-left"></i>
@@ -111,14 +111,35 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Talabalar
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.groups.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Talabalar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.students.create') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Talaba qo'shish</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('admin.schedule.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-building"></i>
+                        <i class="nav-icon fas fa-calendar-alt"></i>
                         <p>Dars jadvali</p>
                     </a>
                 </li>
-
-
-
 
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link">

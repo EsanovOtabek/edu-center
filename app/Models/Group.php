@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes; // SoftDeletes traitini ulash
 
     protected $fillable = [
         'name',
@@ -29,6 +30,13 @@ class Group extends Model
     public function schedules()
     {
         return $this->hasMany(Schedule::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'group_student')
+            ->withPivot('start_date')
+            ->withTimestamps();
     }
 
 

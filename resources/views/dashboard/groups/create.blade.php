@@ -16,7 +16,7 @@
                         <div class="form-group col-md-6">
                             <label for="name">Guruh nomi</label>
                             <input type="text" name="name" id="name" class="form-control" required
-                                   value="{{ old('name') }}" placeholder="Guruh nomi">
+                                value="{{ old('name') }}" placeholder="Guruh nomi">
                         </div>
 
                         <!-- Subjects Selection -->
@@ -33,7 +33,7 @@
                         <!-- Subjects Selection -->
                         <div class="form-group col-md-6">
                             <label for="teacher_id">O'qituvchini tanlang</label>
-                            <select name="teacher_id" id="teacher_id" class="form-control select2 " required>
+                            <select name="teacher_id" id="teacher_id" class="form-control select2" required>
                                 <option disabled selected>-- Tanlang --</option>
                                 @foreach ($teachers as $teacher)
                                     <option value="{{ $teacher->id }}">{{ $teacher->fio }}</option>
@@ -44,7 +44,7 @@
                         <div class="form-group col-md-6">
                             <label for="price">Guruh narxi(so'm)</label>
                             <input type="number" name="price" id="price" class="form-control" required
-                                   value="{{ old('price') }}" placeholder="000000">
+                                value="{{ old('price') }}" placeholder="000000">
                         </div>
 
                         <div class="col-md-12">
@@ -59,27 +59,37 @@
                                     <th style="width: 130px">Boshlash vaqti</th>
                                     <th style="width: 130px">Tugash vaqti</th>
                                 </tr>
-                                @foreach($days as $day)
+                                @foreach ($days as $day)
                                     <tr>
                                         <td class="icheck-primary align-middle">
-                                            <input type="checkbox" id="day_{{$day->id}}" name="schedule[{{$day->id}}][day_id]" value="{{ $day->id }}" class="day-checkbox">
-                                            <label for="day_{{$day->id}}" style="font-size: 18px">{{ $day->name }}</label>
+                                            <input type="checkbox" id="day_{{ $day->id }}"
+                                                name="schedule[{{ $day->id }}][day_id]" value="{{ $day->id }}"
+                                                class="day-checkbox">
+                                            <label for="day_{{ $day->id }}"
+                                                style="font-size: 18px">{{ $day->name }}</label>
                                         </td>
                                         <td class="form-group">
-                                            <select name="schedule[{{$day->id}}][room_id]" id="room_{{$day->id}}" class="form-control room-select" disabled required>
+                                            <select name="schedule[{{ $day->id }}][room_id]"
+                                                id="room_{{ $day->id }}" class="form-control room-select" disabled
+                                                required>
                                                 <option disabled selected value="">-- Xonani tanlang --</option>
-                                                @foreach($rooms as $room)
-                                                    <option value="{{ $room->id }}">{{ $room->name }} ({{$room->capacity}} sig'imli)</option>
+                                                @foreach ($rooms as $room)
+                                                    <option value="{{ $room->id }}">{{ $room->name }}
+                                                        ({{ $room->capacity }} sig'imli)</option>
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="schedule[{{$day->id}}][start_time]" class="form-select start-time-select" id="start_time_{{$day->id}}" disabled>
+                                            <select name="schedule[{{ $day->id }}][start_time]"
+                                                class="form-select start-time-select" id="start_time_{{ $day->id }}"
+                                                disabled>
                                                 <option selected disabled value="">Boshlash</option>
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="schedule[{{$day->id}}][end_time]" class="form-select end-time-select" id="end_time_{{$day->id}}" disabled>
+                                            <select name="schedule[{{ $day->id }}][end_time]"
+                                                class="form-select end-time-select" id="end_time_{{ $day->id }}"
+                                                disabled>
                                                 <option selected disabled value="">Tugash</option>
                                             </select>
                                         </td>
@@ -127,7 +137,8 @@
             // Find all checkboxes
             $('.day-checkbox').each(function() {
                 $(this).on('change', function() {
-                    const dayId = $(this).attr('id').split('_')[1]; // Extract day ID from checkbox ID
+                    const dayId = $(this).attr('id').split('_')[
+                    1]; // Extract day ID from checkbox ID
                     const roomSelect = $(`#room_${dayId}`);
                     var startTimeSelect = $(`#start_time_${dayId}`);
                     var endTimeSelect = $(`#end_time_${dayId}`);
@@ -138,7 +149,7 @@
                         startTimeSelect.prop('disabled', false);
                         endTimeSelect.prop('disabled', false);
 
-                        roomSelect.on('change', function (){
+                        roomSelect.on('change', function() {
                             const roomId = roomSelect.val();
 
                             checkIfTimeForStart(dayId, roomId);
@@ -164,14 +175,17 @@
                 });
             });
 
-            function checkIfTimeForStart(dayId, roomId){
+            function checkIfTimeForStart(dayId, roomId) {
                 var startTimeSelect = $(`#start_time_${dayId}`);
                 var endTimeSelect = $(`#end_time_${dayId}`);
 
                 $.ajax({
                     url: "{{ route('admin.check.schedule.start') }}",
                     type: 'GET',
-                    data: {day_id: dayId, room_id: roomId},
+                    data: {
+                        day_id: dayId,
+                        room_id: roomId
+                    },
                     success: function(data) {
                         startTimeSelect.html(data)
                         endTimeSelect.html(data)
@@ -198,8 +212,5 @@
 
 
         });
-
     </script>
-
-
 @endpush

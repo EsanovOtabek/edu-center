@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,5 +22,9 @@ Route::resource('groups', GroupController::class);
 
 
 Route::get('/check-schedule-start', [ScheduleController::class, 'checkScheduleStart'])->name('check.schedule.start');
-Route::get('/check-schedule-end', [ScheduleController::class, 'checkScheduleEnd'])->name('check.schedule.end');
+Route::get('/check-schedule-update', [ScheduleController::class, 'checkScheduleUpdate'])->name('check.schedule.update');
 Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+
+
+
+Route::resource('students', StudentController::class);

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,6 +17,7 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained()->onDelete('cascade'); // O'qituvchini tanlash
             $table->enum('status', ['active', 'finished'])->default('active');
             $table->decimal('price', 8, 2); // Guruh narxi
+            $table->softDeletes(); // "deleted_at" ustunini qo'shish
             $table->timestamps();
         });
     }

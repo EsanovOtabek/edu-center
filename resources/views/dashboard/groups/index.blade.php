@@ -1,57 +1,107 @@
 @extends('layout.dashboard')
 
-@section('content-name', 'O‘qituvchilar')
-
-@section('pages')
-    <li class="breadcrumb-item active">O‘qituvchilar</li>
-@endsection
+@section('content-name', 'Guruhlar ro\'yxati')
 
 @section('content')
     <div class="row">
-        <div class="col-12">
-            <div class="card">
+        <div class="col-md-12">
+            <div class="card card-white">
                 <div class="card-header">
-                    <a href="{{ route('admin.teachers.create') }}" class="btn btn-primary float-right">+ O‘qituvchi Qo‘shish</a>
+                    <h3 class="card-title">Guruhlar ro'yxati</h3>
+                    <div class="card-tools">
+                        <a href="{{ route('admin.groups.create') }}" class="btn btn-primary float-right text-white">
+                            + Guruh qo'shish
+                        </a>
+                    </div>
                 </div>
+
                 <div class="card-body">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>To‘liq Ismi</th>
-                            <th>Telefon</th>
-                            <th>Foiz</th>
-                            <th>Fanlari</th>
-                            <th>Balans</th>
-                            <th>Amallar</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($teachers as $teacher)
-                            <tr>
-                                <td>{{ $teacher->id }}</td>
-                                <td>{{ $teacher->fio }}</td>
-                                <td>{{ $teacher->phone }}</td>
-                                <td>{{ $teacher->salary_percentage }}</td>
-                                <td>
-                                    @foreach($teacher->subjects->pluck('name') as $tsb)
-                                        <span class="p-1 bg-primary rounded">{{ $tsb }}</span>
-                                    @endforeach
-                                </td>
-                                <td>{{ $teacher->balance }}</td>
-                                <td>
-                                    <a href="{{ route('admin.teachers.show', $teacher->id) }}" class="btn btn-info"><i class="fa fa-eye"></i></a>
-                                    <a href="{{ route('admin.teachers.edit', $teacher->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
-                                    <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST" style="display: inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn btn-danger" onclick="return confirm('O‘chirishga ishonchingiz komilmi?')"> <i class="fa fa-trash"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    @if ($groups->isEmpty())
+                        <p class="text-center">Hozirda guruhlar mavjud emas.</p>
+                    @else
+                        <div class="row">
+                            @foreach ($groups as $group)
+                                <div class="col-md-4">
+                                    <div class="card card-primary">
+                                        <div class="card-header">
+                                            <h3 class="card-title">
+                                                {{ $group->name }}
+                                                @if ($group->status == 'active')
+                                                    <span class="badge badge-success">Faol</span>
+                                                @else
+                                                    <span class="badge badge-danger">Tugatilgan</span>
+                                                @endif
+                                            </h3>
+
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                            <!-- /.card-tools -->
+                                        </div>
+                                        <!-- /.card-header -->
+                                        <div class="card-body pt-3 pb-1" style="height: 200px">
+                                            <div>
+                                                <b>Fan:</b>
+                                                {{ Str::upper($group->subject->name) }}
+                                            </div>
+                                            <div>
+                                                <b>O'qituvchi:</b>
+                                                {{ Str::upper($group->teacher->fio) }}
+                                            </div>
+                                            <div>
+                                                <b>Narxi:</b>
+                                                {{ number_format($group->price) }} so'm
+                                            </div>
+                                            <div>
+                                                <b>O'quvchilar soni:</b>
+                                                {{ 21 }} ta
+                                            </div>
+                                            <ul class="list-unstyled border-top border-bottom my-2"
+                                                style="font-size: 14px;">
+                                                @foreach ($group->schedules as $schedule)
+                                                    <li>
+                                                        {{ $schedule->day->name }}:
+                                                        {{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }} -
+                                                        {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}
+                                                        (Xona:
+                                                        {{ $schedule->room->name }})
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer d-flex justify-content-end">
+                                            <div class="ml-1">
+
+                                                <a href="{{ route('admin.groups.edit', $group->id) }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="ml-1">
+                                                <button class="btn btn-danger btn-sm"
+                                                    onclick='confirmDelete({{ $group->id }},"{{ $group->name }}")'>
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                                <form action="{{ route('admin.groups.destroy', $group->id) }}"
+                                                    method="POST" id="delete-form-{{ $group->id }}"
+                                                    style="display:none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.card -->
+
+                                </div>
+                            @endforeach
+
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -60,33 +110,28 @@
 
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
 @endpush
 
 
 @push('scripts')
-    <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
-        $(function () {
-            $("#subjects-table").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy","excel", "pdf"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        });
-
-
+        function confirmDelete(group_id, group) {
+            Swal.fire({
+                title: group + " guruhini o'chirishni tasdiqlaysizmi?",
+                text: 'Bu amal qaytarib bo\'lmaydi!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ha, o\'chirish',
+                cancelButtonText: 'Yopish'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + group_id).submit();
+                }
+            });
+        }
     </script>
 @endpush
