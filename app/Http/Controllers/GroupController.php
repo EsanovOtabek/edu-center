@@ -17,6 +17,15 @@ class GroupController extends Controller
         return view('dashboard.groups.index', compact('groups'));
     }
 
+    public function show($id)
+    {
+        // Guruhni va unga tegishli talabalarni yuklash
+        $group = Group::with('students')->findOrFail($id);
+
+        return view('dashboard.groups.show', compact('group'));
+    }
+
+
     public function create()
     {
         $days = Day::all();
@@ -89,7 +98,7 @@ class GroupController extends Controller
         }
 
         // 5. Muvaffaqiyatli xabar bilan qaytarish
-        return redirect()->route('admin.groups.index')->with('success', 'Guruh muvaffaqiyatli qo\'shildi.');
+        return redirect()->back()->with('success', 'Guruh muvaffaqiyatli qo\'shildi.');
     }
 
 
@@ -149,7 +158,7 @@ class GroupController extends Controller
         }
 
         // 5. Muvaffaqiyatli xabar bilan qaytarish
-        return redirect()->route('admin.groups.index')->with('success', 'Guruh muvaffaqiyatli yangilandi.');
+        return redirect()->back()->with('success', 'Guruh muvaffaqiyatli yangilandi.');
     }
 
 

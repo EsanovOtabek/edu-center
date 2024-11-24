@@ -17,7 +17,7 @@ Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
 
 Route::resource('teachers', TeacherController::class);
 Route::resource('subjects', controller: SubjectController::class)->except(['create', 'show', 'edit']);
-Route::resource('rooms', RoomController::class)->except(['create', 'show', 'edit']);
+Route::resource('rooms', RoomController::class)->except(['create',  'edit']);
 Route::resource('groups', GroupController::class);
 
 

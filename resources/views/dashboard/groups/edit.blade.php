@@ -2,6 +2,13 @@
 
 @section('content-name', 'Guruhni tahrirlash')
 
+@section('title', 'Guruhni tahrirlash')
+
+@section('pages')
+    <li class="breadcrumb-item ">Guruhlar</li>
+    <li class="breadcrumb-item active">Guruhni tahrirlash</li>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12">

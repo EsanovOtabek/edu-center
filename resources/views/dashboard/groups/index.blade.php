@@ -2,6 +2,13 @@
 
 @section('content-name', 'Guruhlar ro\'yxati')
 
+@section('title', 'Guruhlar ro\'yxati')
+
+@section('pages')
+    <li class="breadcrumb-item ">Guruhlar</li>
+    <li class="breadcrumb-item active">Guruhlar ro'yxati</li>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -55,8 +62,8 @@
                                                 {{ number_format($group->price) }} so'm
                                             </div>
                                             <div>
-                                                <b>O'quvchilar soni:</b>
-                                                {{ 21 }} ta
+                                                <b>Talabalar soni:</b>
+                                                {{ $group->students->count() }} ta
                                             </div>
                                             <ul class="list-unstyled border-top border-bottom my-2"
                                                 style="font-size: 14px;">
@@ -74,7 +81,13 @@
                                         <!-- /.card-body -->
                                         <div class="card-footer d-flex justify-content-end">
                                             <div class="ml-1">
+                                                <a href="{{ route('admin.groups.show', $group->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </div>
 
+                                            <div class="ml-1">
                                                 <a href="{{ route('admin.groups.edit', $group->id) }}"
                                                     class="btn btn-warning btn-sm">
                                                     <i class="fa fa-edit"></i>

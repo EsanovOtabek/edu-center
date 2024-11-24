@@ -21,7 +21,7 @@
 
         <div class="card-body pb-0">
             <div class="row">
-                @foreach($rooms as $room)
+                @foreach ($rooms as $room)
                     <div class="col-12 col-sm-4 d-flex col-md-3 ">
                         <div class="card small-box bg-light d-flex flex-fill">
                             <div class="card-body pt-2 inner">
@@ -34,27 +34,20 @@
                             </div>
                             <div class="card-footer ">
                                 <div class="justify-content-end d-flex">
-                                    <a href="#" class="btn btn-info ml-2">
+                                    <a href="{{ route('admin.rooms.show', $room->id) }}" class="btn btn-info ml-2">
                                         <i class="fas fa-calendar-alt"></i>
                                     </a>
 
                                     <!-- Tahrirlash tugmasi -->
-                                    <button
-                                        class="btn btn-warning ml-2"
-                                        data-toggle="modal"
-                                        data-target="#modal-edit"
-                                        data-id="{{ $room->id }}"
-                                        data-name="{{ $room->name }}"
+                                    <button class="btn btn-warning ml-2" data-toggle="modal" data-target="#modal-edit"
+                                        data-id="{{ $room->id }}" data-name="{{ $room->name }}"
                                         data-capacity="{{ $room->capacity }}">
-                                    <i class="fa fa-edit"></i>
+                                        <i class="fa fa-edit"></i>
                                     </button>
 
                                     <!-- O'chirish tugmasi -->
-                                    <button class="btn btn-danger ml-2"
-                                            data-toggle="modal"
-                                            data-target="#modal-delete"
-                                            data-id="{{ $room->id }}"
-                                            data-name="{{ $room->name }}">
+                                    <button class="btn btn-danger ml-2" data-toggle="modal" data-target="#modal-delete"
+                                        data-id="{{ $room->id }}" data-name="{{ $room->name }}">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </div>
@@ -81,7 +74,7 @@
 @push('scripts')
     <script>
         // Modalni ochish va formani yangilash
-        $('#modal-delete').on('show.bs.modal', function (event) {
+        $('#modal-delete').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget); // modalni ochishga sabab bo'lgan tugma
             var roomId = button.data('id'); // Tugmadagi ID
             var roomName = button.data('name'); // Tugmadagi nomi
@@ -95,7 +88,7 @@
             form.attr('action', '/admin/rooms/' + roomId); // Formaning action atributini yangilash
         });
 
-        $('#modal-edit').on('show.bs.modal', function (event) {
+        $('#modal-edit').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget); // Modalni ochgan tugma
             var roomId = button.data('id'); // Tugmadagi room ID
             var roomName = button.data('name'); // Tugmadagi room nomi
@@ -109,5 +102,3 @@
         });
     </script>
 @endpush
-
-

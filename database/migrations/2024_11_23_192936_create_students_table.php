@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('father_phone')->nullable();
             $table->string('mother_phone')->nullable();
             $table->string('telegram_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
 

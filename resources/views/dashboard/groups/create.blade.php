@@ -2,6 +2,13 @@
 
 @section('content-name', 'Guruh qo\'shish')
 
+@section('title', 'Guruh qo\'shish')
+
+@section('pages')
+    <li class="breadcrumb-item ">Guruhlar</li>
+    <li class="breadcrumb-item active">Guruh qo\'shish</li>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -75,7 +82,8 @@
                                                 <option disabled selected value="">-- Xonani tanlang --</option>
                                                 @foreach ($rooms as $room)
                                                     <option value="{{ $room->id }}">{{ $room->name }}
-                                                        ({{ $room->capacity }} sig'imli)</option>
+                                                        ({{ $room->capacity }} sig'imli)
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </td>
@@ -138,7 +146,7 @@
             $('.day-checkbox').each(function() {
                 $(this).on('change', function() {
                     const dayId = $(this).attr('id').split('_')[
-                    1]; // Extract day ID from checkbox ID
+                        1]; // Extract day ID from checkbox ID
                     const roomSelect = $(`#room_${dayId}`);
                     var startTimeSelect = $(`#start_time_${dayId}`);
                     var endTimeSelect = $(`#end_time_${dayId}`);

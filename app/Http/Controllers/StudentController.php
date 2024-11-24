@@ -8,10 +8,25 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with('groups')->get();
-        return view('dashboard.students.index', compact('students'));
+        $query = Student::with('groups');
+
+        $group_id = 0;
+        if ($request->has('group_id') && $request->isMethod('get')) {
+            $group_id = intval($request->input('group_id'));
+        }
+
+        if ($group_id > 0) {
+            $query->whereHas('groups', function ($q) use ($request) {
+                $q->where('groups.id', $request->group_id);
+            });
+        }
+        $students = $query->get(); // Talabalar va guruhlarni yuklash
+
+
+        $groups = Group::all(); // Filtr uchun barcha guruhlar
+        return view('dashboard.students.index', compact('students', 'groups', 'group_id'));
     }
 
     public function create()
@@ -44,7 +59,43 @@ class StudentController extends Controller
             }
         }
 
-        return redirect()->route('students.index')->with('success', 'O‘quvchi muvaffaqiyatli qo‘shildi.');
+        return redirect()->back()->with('success_msg', 'O‘quvchi muvaffaqiyatli qo‘shildi.');
     }
+
+    public function edit(Student $student)
+    {
+        $groups = Group::all();
+        return view('dashboard.students.edit', compact('groups', 'student'));
+    }
+
+    public function update(Request $request, Student $student)
+    {
+        $request->validate([
+            'fio' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'address' => 'nullable|string|max:255',
+            'telegram_id' => 'nullable|string|max:255',
+        ]);
+
+        $student->update($request->only([
+            'fio',
+            'phone',
+            'address',
+            'telegram_id',
+            'father_fio',
+            'mother_fio',
+            'father_phone',
+            'mother_phone'
+        ]));
+
+        // Guruhlarni yangilash
+        $student->groups()->detach();
+        foreach ($request->groups as $group) {
+            $student->groups()->attach($group['id'], ['start_date' => $group['start_date']]);
+        }
+
+        return redirect()->back()->with('success', 'O‘quvchi muvaffaqiyatli yangilandi.');
+    }
+
 
 }

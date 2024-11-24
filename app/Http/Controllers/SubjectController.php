@@ -27,7 +27,7 @@ class SubjectController extends Controller
 
         Subject::create($validated);
 
-        return redirect()->route('admin.subjects.index')->with('success_msg', 'Fan muvaffaqiyatli qo‘shildi.');
+        return redirect()->back()->with('success_msg', 'Fan muvaffaqiyatli qo‘shildi.');
     }
 
     /**
@@ -41,7 +41,7 @@ class SubjectController extends Controller
 
         $subject->update($validated);
 
-        return redirect()->route('admin.subjects.index')->with('success', 'Fan muvaffaqiyatli yangilandi.');
+        return redirect()->back()->with('success', 'Fan muvaffaqiyatli yangilandi.');
     }
 
     /**

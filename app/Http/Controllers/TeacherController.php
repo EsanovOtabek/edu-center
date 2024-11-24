@@ -70,7 +70,7 @@ class TeacherController extends Controller
         $teacher->subjects()->sync($request->subjects);
 
         // Return success message
-        return redirect()->route('admin.teachers.index')->with('success_msg', 'Teacher added successfully.');
+        return redirect()->back()->with('success_msg', 'Teacher added successfully.');
     }
 
 
@@ -104,7 +104,7 @@ class TeacherController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Rasm validatsiyasi
         ]);
 
-        if(isset($request->password)){
+        if (isset($request->password)) {
             $request->validate(['password' => 'required|string|min:8']);
             $password = $request->password;
             $user = User::find($teacher->user_id);
@@ -136,7 +136,7 @@ class TeacherController extends Controller
             $teacher->subjects()->sync($request->subjects);
         }
 
-        return redirect()->route('admin.teachers.index')->with('success_msg', 'O‘qituvchi muvaffaqiyatli yangilandi.');
+        return redirect()->back()->with('success_msg', 'O‘qituvchi muvaffaqiyatli yangilandi.');
     }
 
     /**

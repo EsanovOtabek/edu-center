@@ -12,6 +12,17 @@ class RoomController extends Controller
         return view('dashboard.rooms.index', compact('rooms'));
     }
 
+    public function show(Room $room)
+    {
+        // Xonaga bog'liq jadvalni olish (7 kun bo'yicha)
+        $schedule = $room->schedules()
+            ->with(['day', 'group.subject', 'group.teacher'])
+            ->get()
+            ->groupBy('day.name'); // Kunlar bo'yicha guruhlash
+
+        return view('dashboard.schedules.by-rooms', compact('room', 'schedule'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -21,7 +32,7 @@ class RoomController extends Controller
 
         Room::create($request->all());
 
-        return redirect()->route('admin.rooms.index')->with('success_msg', 'Xona muvaffaqiyatli qo\'shildi!');
+        return redirect()->back()->with('success_msg', 'Xona muvaffaqiyatli qo\'shildi!');
     }
 
     public function update(Request $request, Room $room)
@@ -33,7 +44,7 @@ class RoomController extends Controller
 
         $room->update($request->all());
 
-        return redirect()->route('admin.rooms.index')->with('success_msg', 'Xona muvaffaqiyatli yangilandi!');
+        return redirect()->back()->with('success_msg', 'Xona muvaffaqiyatli yangilandi!');
     }
 
     public function destroy(Room $room)
