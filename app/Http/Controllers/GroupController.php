@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Day;
 use App\Models\Subject;
 use App\Models\Teacher;
+use App\Models\Student;
 
 class GroupController extends Controller
 {
@@ -167,6 +168,37 @@ class GroupController extends Controller
     {
         $group->delete(); // Soft delete
         return redirect()->route('admin.groups.index')->with('success_msg', 'Guruh muvaffaqiyatli arxivlandi.');
+    }
+
+
+    public function removeStudent(Request $request, Group $group)
+    {
+        $student = Student::findOrFail($request->student_id);
+        $group->students()->detach($student->id);
+
+        return response()->json(['message' => "{$student->fio} guruhdan olib tashlandi"]);
+    }
+
+    public function addStudent(Request $request, Group $group)
+    {
+        $student = Student::findOrFail($request->student_id);
+        $startDate = date('Y-m-d');
+        if(!is_null($request->start_date)){
+            $startDate = $request->start_date;
+        }
+
+        if (!$group->students->contains($student->id)) {
+            $group->students()->attach($student->id, ['start_date' => $startDate]);
+            return response()->json(['message' => "{$student->fio} guruhga biriktirildi"]);
+        }
+
+        return response()->json(['message' => "{$student->fio} allaqachon guruhga biriktirilgan"], 400);
+    }
+
+    public function getAvailableStudents(Group $group)
+    {
+        $students = Student::whereNotIn('id', $group->students->pluck('id'))->get();
+        return response()->json($students);
     }
 
 }

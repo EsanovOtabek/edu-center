@@ -81,6 +81,14 @@
                                         <!-- /.card-body -->
                                         <div class="card-footer d-flex justify-content-end">
                                             <div class="ml-1">
+                                                <a href="{{ route('admin.attendance.index', $group->id) }}"
+                                                    class="btn btn-success btn-sm">
+                                                    <i class="fa fa-calendar-check"></i>
+                                                    Davomat
+                                                </a>
+                                            </div>
+
+                                            <div class="ml-1">
                                                 <a href="{{ route('admin.groups.show', $group->id) }}"
                                                     class="btn btn-info btn-sm">
                                                     <i class="fa fa-eye"></i>

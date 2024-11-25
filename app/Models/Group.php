@@ -39,6 +39,12 @@ class Group extends Model
             ->withTimestamps();
     }
 
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+
 
 
 }

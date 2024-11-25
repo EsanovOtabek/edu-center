@@ -150,6 +150,61 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-money-bill"></i>
+                        <p>
+                            To'lovlar
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.payment.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>To'lovlar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.payment.create') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>To'lov qilish</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-money-bill-wave"></i>
+                        <p>
+                            Xarajatlar
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.expenses.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Xarajatlar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.expenses.create') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Xarajat qilish</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.settings') }}" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>Sozlamalar</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link">
                         <i class="nav-icon fa fa-sign-out-alt"></i>
                         <p>
